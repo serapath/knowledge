@@ -50,15 +50,31 @@ function starter (name) {
     'package.json'  : `
       {
         "scripts": {
-          "start": "ecstatic --root public/browser & npm run watch & npm run cordova",
-          "watch": "watchify source/index.js -p [ browserify-hmr -u http://$(my-local-ip):3123 ] -p ghostmodeify -t babelify -o public/browser/bundle.js -dv",
-          "bundle": "browserify source/index.js -t babelify -o public/browser/bundle.js -dv",
+          "watch": "watchify source/index.js -p [ browserify-hmr -u http://$(my-local-ip):3123 ] -p ghostmodeify -t babelify  -p [ urify-emitter -l 100 -o public/browser -b public/browser ] --it urify -o public/browser/bundle.js -dv",
+          "www": "ecstatic ./ --root public/browser -p 5000 -H 'Access-Control-Allow-Origin: *'",
+          "start": "npm run www & npm run watch & npm run cordova",
+          "build": "browserify source/index.js -t babelify  -p [ urify-emitter -l 100 -o public/browser -b public/browser ] --it urify -o public/browser/bundle.js -dv",
           "cordova": "cpy public/browser/**/* public/cordova/www/ && gaze 'cpy $path public/cordova/www/' 'public/browser/**/*'",
-          "electron": "# @TODO: build electron"
+          "electron": "# @TODO: build electron",
+          "browser": "opn http://0.0.0.0:5000/",
+          "test": "echo \"Error: no test specified\" && exit 1"
         }
       }
-    `, // @TODO: upgrade "npm run bundle" to include optimizations (uglify, ...)
-    'README.md'     : `# ${name}`
+    `, // @TODO: upgrade "npm run build" to include optimizations (uglify, ...)
+    'README.md'     : `
+      # ${name}
+
+      # usage
+      \`npm install ${name}\`
+
+      \`\`\`js
+      var ${name} = require('${name}')
+      // ...
+      \`\`\`
+
+      # contribution
+      \`npm run browser & npm start\`
+    `
   }
 }
 ```

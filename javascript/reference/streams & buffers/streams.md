@@ -14,11 +14,100 @@ var result = newFunc(4)
 console.log(result) // => 5
 /*******************************************************
   STREAMS
+  - it's a mirror of node core streams v2 and v3
+  - enables use of streams in the browser and old nodejs
 *******************************************************/
 var read       = require('readable-stream')
 var write      = read.Writable
 var transform  = read.Transform
 var duplex     = read.Duplex
+/*******************************************************
+  Detecting `end-of-stream` (or error)
+  - it's hard because readable and writable have
+    different APIs for detecting end of stream
+*******************************************************/
+var eos = require('end-of-stream')
+eos(readableStream, function (err) {
+  if (err) return console.log('stream close early on err')
+  console.log('stream ended')
+})
+eos(writableStream, function (err) {
+  if (err) return console.log('stream close early on err')
+  console.log('stream finished')
+})
+/*******************************************************
+  ERROR HANDLING
+  - streams need to be closed individually
+  - errors are not piped
+*******************************************************/
+var a=createStream(),b=createStream(),c=createStream()
+a.on('error', function (e) { handleError(e) })
+.pipe(b)
+.on('error', function (e) { handleError(e) })
+.pipe(c)
+.on('error', function (e) { handleError(e) })
+// dont use `.pipe()` (only if you know what you're doing)
+// but only use `pump` instead
+var pump = require('pump')
+pump(a, b, c, function (err) {
+  console.log('pipe finished', err)
+})
+setTimeout(function () {
+  c.destroy() // when c is closed, pump will destroy a & b
+}, 1000)
+/*******************************************************
+  FROM2 (convenience)
+*******************************************************/
+var from = require('from2')
+// avoids sub classing noise for readable streams
+function fromString (string) {
+  return from(function (size, next) {
+    // if there's no more content left in the string,
+    // close the stream.
+    if (string.length <= 0) return next(null, null)
+    // Pull in a new chunk of text,
+    // removing it from the string.
+    var chunk = string.slice(0, size)
+    string = string.slize(size)
+    // emit "chunk" from the stream.
+    next(null, chunk)    
+  })
+}
+// pipe "hello world" out to stdout
+fromString('hello world').pipe(process.stdout)
+//------------------------------------------------------
+var through2 = require('through2')
+// avoids sub classing noise for transform streams
+// - provides `.destroy()`
+// `destroy` is not part of normal transform streams
+// because it's not part of core which is a big problem
+fs.createReadStream('ex.txt')
+.pipe(through2(function (chunk, encoding, next) {
+  for (var i = 0; i < chunk.length; i++) {
+    if (chunk[i] === 97) chunk[i] = 122 //'a'->'z'
+    this.push(chunk)
+    next()
+  }
+}))
+.pipe(fs.createWriteStream('out.txt'))
+//------------------------------------------------------
+var writer = require('flush-write-stream')
+// avoids sub classing noise for writable streams
+var ws writer(write, flush)
+ws.on('finish', function () { console.log('finish') })
+ws.write('hello')
+ws.write('world')
+ws.end()
+function write (chunk, encoding, next) {
+  // it's the normal `_write()` method
+  console.log('writing', chunk.toString())
+  next()
+}
+// flush is again exposed by core, but a needed feature
+function flush (done) {
+  // called before "finish" is emitted
+  setTimeout(done, 1000) // wait one second
+}
 /*******************************************************
   READ STREAM
 *******************************************************/
@@ -193,6 +282,7 @@ setTimeout(function () {
 /*******************************************************
   For more information, check:
 *******************************************************/
+// try: https://www.youtube.com/watch?v=mlNUxIUS-0Q
 // try: https://github.com/substack/stream-adventure
 // try: https://github.com/substack/stream-handbook
 ```
