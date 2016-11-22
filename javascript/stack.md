@@ -42,6 +42,9 @@ http://twitter.com/serapath
   * **https://www.npmjs.com/package/replace-dom**
   * https://www.npmjs.com/package/yo-yo (deprecated)
 
+**router**
+  * **https://www.npmjs.com/package/route-stream**
+
 **streams**
   * **https://www.npmjs.com/package/readable-stream**
 
