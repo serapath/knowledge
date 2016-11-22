@@ -39,7 +39,8 @@ http://twitter.com/serapath
 
 **markup**
   * **https://www.npmjs.com/package/bel/**
-  * **https://www.npmjs.com/package/replace-dom**
+  * **https://www.npmjs.com/package/dom-stream**
+  * https://www.npmjs.com/package/replace-dom (deprecated)
   * https://www.npmjs.com/package/yo-yo (deprecated)
 
 **router**
