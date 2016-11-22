@@ -7,6 +7,7 @@ a place to keep some notes
 # you :-)
 If you stumble upon this repository and actually read stuff, please feel free to open an [issue](https://github.com/serapath/notebook/issues) and give me some feedback.
 * I'm especially interested in help to improve my notes
+* please tell me if you spot mistakes
 * Any other kind of feedback or questions is welcome too :-)
 
 thx.
