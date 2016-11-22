@@ -32,3 +32,6 @@ So in the end, it's anyway the execution that matters.
 2. It is free marketing, so people start to follow you because they want to learn more
 3. Its perfect to start building a community of potential customers and learn about their NEEDS
 4. Its perfect for others, so they know that they should share links with you that they came across and that have information about what competitors or similar solutions on the market exist
+
+**Also check:**
+* http://swombat.com/2014/8/9/dont-ask-for-NDAs
