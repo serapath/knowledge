@@ -14,7 +14,7 @@ var duplex     = read.Duplex
 /******************************************************************************
   WRITE STREAMS (sinks)
 ******************************************************************************/
-myWriteStream.__proto__ = write.prototype
+myWriteStream.prototype.__proto__ = write.prototype
 // @TODO: add additional myReadStream class methods
 function myWriteStream () {
   var write$ = write({ objectMode: true })
@@ -33,7 +33,7 @@ myWrite.write('write data to `myWrite`')
 /******************************************************************************
   MAKE READ STREAMS (sources)
 ******************************************************************************/
-myReadStream.__proto__ = read.prototype
+myReadStream.prototype.__proto__ = read.prototype
 // @TODO: add additional myReadStream class methods
 function myReadStream () {
   var read$ = read({ read: function () {}, objectMode: true })
@@ -49,7 +49,7 @@ mr.push('make data available to be read from `mr`')
 /******************************************************************************
   MAKE TRANSFORM STREAMS (sink for data to directly feed a connected source)
 ******************************************************************************/
-myTransformStream.__proto__ = transform.prototype
+myTransformStream.prototype.__proto__ = transform.prototype
 // @TODO: add additional myReadStream class methods
 function myTransformStream () {
   var transform$ = transform({ objectMode: true })
@@ -72,7 +72,7 @@ mt.on('data', function (data) {
 /******************************************************************************
   MAKE DUPLEX STREAMS (data sink & data source - not necessarily connected)
 ******************************************************************************/
-myDuplexStream.__proto__ = duplex.prototype
+myDuplexStream.prototype.__proto__ = duplex.prototype
 // @TODO: add additional myReadStream class methods
 function myDuplexStream () {
   // var CUSTOM = []

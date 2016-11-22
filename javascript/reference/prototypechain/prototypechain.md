@@ -2,17 +2,13 @@
 
 My thoughts on: https://davidwalsh.name/javascript-objects-deconstruction#simpler-object-object
 
-I think after revisiting the topic after a very very long time I tried to summarize my thoughts below.  
-I tried to cover all edge cases and make stuff very fast and flexible.
+After revisiting the topic after a very very long time I tried to summarize my thoughts below with the goal to cover all edge cases and make stuff very fast and flexible.
 
-Old ways:
-
-* `Object.create` is magic too - maybe more than `new` which people might know from other contexts
+**Some thoughts about traditions:**
+All the old ways of object instantiation use "magic" to set the prototype chain, but now you can do it directly too.
+* `Object.create` is "magic" - maybe more than `new` which people might know from other contexts
 * `this` is something that cannot be avoided, because it has to be used in "prototype methods" anyway
-
-All the old ways of object instantiation use magic to set the prototype chain, but now you can do it directly.
-
-* `__proto__` attribute can be considered "magic" too, but at least it sets directly the one thing we are interested in :-)
+* `__proto__` attribute can be considered "magic", but at least it sets directly the one thing we are interested in :-)
 
 The `__proto__` property is nice, because many browsers implemented it already when it was not a standard, but with `es6` it's even a standard now. It allows to set **directly** the one thing that we care about in all this, which is:
 * **the `prototype chain` of objects** :-)
